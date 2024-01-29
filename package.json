@@ -130,6 +130,7 @@
     "side-channel": "^1.0.4",
     "signal-exit": "^3.0.7",
     "split": "^0.3.3",
+
     "start-server-and-test": "^2.0.3",
     "statuses": "^2.0.1",
     "stream-combiner": "^0.0.4",
@@ -150,7 +151,8 @@
     "with": "^7.0.2"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -162,4 +164,5 @@
     "url": "https://github.com/seanm122/sean-balog-iwh-i-practicum/issues"
   },
   "homepage": "https://github.com/seanm122/sean-balog-iwh-i-practicum#readme"
+  
 }
