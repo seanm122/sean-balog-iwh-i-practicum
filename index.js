@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 const express = require('express');
 const axios = require('axios');
 const app = express();
@@ -17,7 +20,7 @@ const PRIVATE_APP_ACCESS = 'pat-na1-15c51b47-d2b0-4ba3-931e-42eb745fbfec';
 app.get ( '/', async (req,res) => {
     const homepage = 'https://api.hubspot.com/crm/v3/objects/2-21293069';
     const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
     try {
