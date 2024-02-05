@@ -27,14 +27,16 @@ head
  
     h1  Custom Object Table
     p
-        table(style='width:50%' border=".5px")
-            tr
-                th Name
-                th Nickname
-                th Favorite Song
-            tr
-                td #{name}
-                td #{pets}
-                td #{pets.favorite_song}
-                    
+        a(href="/update-cobj" class="pb-4") Add to this table
+            table(style='width:50%' border=".5px")
+                tr
+                    th Name
+                    th Nickname
+                    th Favorite Song
+                    each homepage in data
+                        tr
+                            td #{homepage.properties.name}
+                            td #{homepage.properties.nickname}
+                            td #{homepage.properties.favorite_song}
+                            
 

@@ -22,7 +22,7 @@ app.use(express.json());
 
 // * Code for Route 1 goes here
 app.get ( '/', async (req,res) => {
-    const homepage = 'https://api.hubspot.com/crm/v3/objects/2-21293069?properties=name&properties=nicknname&properties=favorite_song';
+    const homepage = 'https://api.hubspot.com/crm/v3/objects/2-21293069?properties=name&properties=nickname&properties=favorite_song';
     const headers = {
         Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
@@ -31,11 +31,8 @@ app.get ( '/', async (req,res) => {
     try {
         const resp = await axios.get(homepage, { headers });
         const data = resp.data.results;
-        const pets = JSON.stringify(data);
-        res.render('homepage', { pets });   
-        console.log(pets)
-
-        // console.log(JSON.stringify(data));
+        res.render('homepage', { data });   
+        // console.log(data)
     } catch (error) {
         console.error(error);
 
@@ -48,12 +45,12 @@ app.get ( '/', async (req,res) => {
 // * Code for Route 2 goes here
 
 
-// app.get('/update-cobj', (req, res) => {
-//     res.render("updates", {
-//       title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
-//     });
+app.get('/update-cobj', (req, res) => {
+    res.render("updates", {
+      title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
+    });
 
-//   });
+  });
 
 
 
