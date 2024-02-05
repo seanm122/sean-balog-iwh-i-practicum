@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
-// const pug = require('pug');
+
 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
@@ -36,9 +36,101 @@ app.get ( '/', async (req,res) => {
 
 // * Code for Route 2 goes here
 
+
+app.get('/update-cobj', (req, res) => {
+    res.render("updates", {
+      title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
+    });
+
+  });
+
+
+
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
+
+
+app.post('/update', async (req, res) => {
+    const update = {
+        properties: {
+            "name": req.body.newVal
+        }
+    }
+
+    const updatePet = `https://api.hubspot.com/crm/v3/objects/2-21293069`;
+    const headers = {
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try { 
+        await axios.patch(updatePet, update, { headers } );
+        res.redirect('back');
+    } catch(err) {
+        console.error(err);
+    }
+
+});
+
+
+
+// app.post('/update-cobj', async (req, res) => {
+//     try {
+//       // Extract data from the form submission (assuming form fields are named 'name', 'bio', etc.)
+//       const formData = {
+//         name: req.body.firstname,
+//         race: req.body.race,
+//         color: req.body.color,
+//         // Add other form fields as needed
+//       };
+  
+//       // Use the HubSpot API to create or update custom object data
+//       const createOrUpdateEndpoint = 'https://api.hubspot.com/crm/v3/objects/contacts';
+//       const headers = {
+//         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+// //         'Content-Type': 'application/json'
+// //       };
+  
+//       // Make a POST request to create or update the custom object data
+//       await axios.post(createOrUpdateEndpoint, formData, { headers });
+  
+//       // Redirect the user to the homepage after form submission
+//       res.redirect('/');
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).send('Internal Server Error');
+//     }
+//   });
+  
+
+// app.post('/update', async (req, res) => {
+//     const update = {
+//         properties: {
+//             "favorite_book": req.body.newVal
+//         }
+//     }
+
+//     const email = req.query.email;
+//     const updatePet = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
+//     const headers = {
+//         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+//         'Content-Type': 'application/json'
+//     };
+
+//     try { 
+//         await axios.patch(updatePet, update, { headers } );
+//         res.redirect('back');
+//     } catch(err) {
+//         console.error(err);
+//     }
+
+// });
+
+
+
+
+
 
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
