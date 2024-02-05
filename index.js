@@ -7,9 +7,13 @@ const app = express();
 
 
 app.set('view engine', 'pug');
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/homepage.pug'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
+
+// const properties = '?properties=name&properties=niickname&properties=favorite_song'
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
 
@@ -18,19 +22,24 @@ app.use(express.json());
 
 // * Code for Route 1 goes here
 app.get ( '/', async (req,res) => {
-    const homepage = 'https://api.hubspot.com/crm/v3/objects/2-21293069';
+    const homepage = 'https://api.hubspot.com/crm/v3/objects/2-21293069?properties=name&properties=nicknname&properties=favorite_song';
     const headers = {
         Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
 
     try {
-        const response = await axios.get(homepage, {headers});
-        const data = response.data;
-        res.json(data);
+        const resp = await axios.get(homepage, { headers });
+        const data = resp.data.results;
+        const pets = JSON.stringify(data);
+        res.render('homepage', { pets });   
+        console.log(pets)
+
+        // console.log(JSON.stringify(data));
     } catch (error) {
         console.error(error);
-        // res.render( { customObjects: [] });
+
+     
     }    
     }); 
 
@@ -39,12 +48,12 @@ app.get ( '/', async (req,res) => {
 // * Code for Route 2 goes here
 
 
-app.get('/update-cobj', (req, res) => {
-    res.render("updates", {
-      title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
-    });
+// app.get('/update-cobj', (req, res) => {
+//     res.render("updates", {
+//       title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
+//     });
 
-  });
+//   });
 
 
 
@@ -55,83 +64,39 @@ app.get('/update-cobj', (req, res) => {
 
 //postman 
 
-let data = JSON.stringify({
-  "properties": {
-    "name": "Reef",
-    "nickname": "Riri",
-    "favorite_song": "Work"
-  }
-});
+// let data = JSON.stringify({
+//   "properties": {
+//     "name": "Reef",
+//     "nickname": "Riri",
+//     "favorite_song": "Work"
+//   }
+// //   td = object.properties.name
+// //   td = data.properties.nickname
+// //   td = data.properties.favorite_song
 
-let config = {
-  method: 'post',
-  maxBodyLength: Infinity,
-  url: 'https://api.hubapi.com/crm/v3/objects/2-21293069',
-  headers: { 
-    'Content-Type': 'application/json', 
-    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
-  },
-  data : data
-};
+// });
 
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
-})
-.catch((error) => {
-  console.log(error);
-});
+// let config = {
+//   method: 'post',
+//   maxBodyLength: Infinity,
+//   url: 'https://api.hubapi.com/crm/v3/objects/2-21293069',
+//   headers: { 
+//     'Content-Type': 'application/json', 
+//     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+//   },
+//   data : data
+// };
 
-
-
-
-//first attempt
-// app.post('/update', async (req, res) => {
-//     const update = {
-//         properties: {
-//             "name": req.body.newVal
-//         }
-//     }
-
-//     const updatePet = `https://api.hubspot.com/crm/v3/objects/2-21293069`;
-//     const headers = {
-//         Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
-//         'Content-Type': 'application/json'
-//     };
-
-//     try { 
-//         await axios.patch(updatePet, update, { headers } );
-//         res.redirect('back');
-//     } catch(err) {
-//         console.error(err);
-//     }
-
+// axios.request(config)
+// .then((response) => {
+//   console.log(JSON.stringify(response.data));
+// })
+// .catch((error) => {
+//   console.log(error);
 // });
 
 
 
-
-
-
-
-
-// app.post('/update-cobj', async (req, res) => {
-//     try {
-//       // Extract data from the form submission (assuming form fields are named 'name', 'bio', etc.)
-//       const formData = {
-//         name: req.body.firstname,
-//         race: req.body.race,
-//         color: req.body.color,
-//         // Add other form fields as needed
-//       };
-  
-//       // Use the HubSpot API to create or update custom object data
-//       const createOrUpdateEndpoint = 'https://api.hubspot.com/crm/v3/objects/contacts';
-//       const headers = {
-//         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-// //         'Content-Type': 'application/json'
-// //       };
-  
 //       // Make a POST request to create or update the custom object data
 //       await axios.post(createOrUpdateEndpoint, formData, { headers });
   
