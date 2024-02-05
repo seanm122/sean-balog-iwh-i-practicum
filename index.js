@@ -23,12 +23,14 @@ app.get ( '/', async (req,res) => {
         Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
+
     try {
         const response = await axios.get(homepage, {headers});
         const data = response.data;
         res.json(data);
     } catch (error) {
         console.error(error);
+        // res.render( { customObjects: [] });
     }    
     }); 
 
@@ -51,27 +53,65 @@ app.get('/update-cobj', (req, res) => {
 // * Code for Route 3 goes here
 
 
-app.post('/update', async (req, res) => {
-    const update = {
-        properties: {
-            "name": req.body.newVal
-        }
-    }
+//postman 
 
-    const updatePet = `https://api.hubspot.com/crm/v3/objects/2-21293069`;
-    const headers = {
-        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
-
-    try { 
-        await axios.patch(updatePet, update, { headers } );
-        res.redirect('back');
-    } catch(err) {
-        console.error(err);
-    }
-
+let data = JSON.stringify({
+  "properties": {
+    "name": "Reef",
+    "nickname": "Riri",
+    "favorite_song": "Work"
+  }
 });
+
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'https://api.hubapi.com/crm/v3/objects/2-21293069',
+  headers: { 
+    'Content-Type': 'application/json', 
+    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+  },
+  data : data
+};
+
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+})
+.catch((error) => {
+  console.log(error);
+});
+
+
+
+
+//first attempt
+// app.post('/update', async (req, res) => {
+//     const update = {
+//         properties: {
+//             "name": req.body.newVal
+//         }
+//     }
+
+//     const updatePet = `https://api.hubspot.com/crm/v3/objects/2-21293069`;
+//     const headers = {
+//         Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+//         'Content-Type': 'application/json'
+//     };
+
+//     try { 
+//         await axios.patch(updatePet, update, { headers } );
+//         res.redirect('back');
+//     } catch(err) {
+//         console.error(err);
+//     }
+
+// });
+
+
+
+
+
 
 
 
@@ -176,6 +216,15 @@ app.post('/update', async (req, res) => {
 });
 */
 
+
+
+// {
+//     "properties": {
+//       "name": "Louie",
+//       "nickname": "Lulu",
+//       "favorite_song": "Dreams"
+//     }
+//   }
 
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
