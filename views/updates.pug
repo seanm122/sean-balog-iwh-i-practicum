@@ -1,11 +1,20 @@
-doctype html
+doctype html 
 html(lang='en')
- head
-   title Update Custom Object Form | Integrating With HubSpot I Practicum
- body
-
-   h1 Custom Objects Here!!!
-       a(href="https://api.hubspot.com/crm/v3/objects/2-21293069") Return to the homepage
-    form(action="update-cobj") 
-   div.remark
-     p Pug rocks!
+head
+  title #{title}
+  body
+ 
+    h1  Custom Object Table
+      p
+    form(method="POST") 
+      label(for="name") Pet Name:
+        input(type="text", value=name)
+      p 
+      label(for="nickname") Nickname:
+        input(type="text", value=nickname)
+      p
+      label(for="favortite_song") Favorite Song:
+        input(type="text", value=favorite_song)
+    
+      
+      a(href="/" class="pb-4") Return to Homepage

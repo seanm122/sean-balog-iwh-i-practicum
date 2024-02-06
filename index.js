@@ -46,10 +46,17 @@ app.get ( '/', async (req,res) => {
 
 
 app.get('/update-cobj', (req, res) => {
-    res.render("updates", {
-      title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
-    });
-
+    const updates = {
+      properties: {
+                  "name" : req.body.name,
+                  "nickname":'',
+                  "favorite_song": ''
+                }
+    }
+    res.render('updates', {title:'Update Custom Object Form | Integrating With HubSpot I Practicum.'});
+    console.log(req.body)
+    
+    
   });
 
 
@@ -59,134 +66,37 @@ app.get('/update-cobj', (req, res) => {
 // * Code for Route 3 goes here
 
 
-//postman 
+// postman 
 
-// let data = JSON.stringify({
-//   "properties": {
-//     "name": "Reef",
-//     "nickname": "Riri",
-//     "favorite_song": "Work"
-//   }
-// //   td = object.properties.name
-// //   td = data.properties.nickname
-// //   td = data.properties.favorite_song
-
-// });
-
-// let config = {
-//   method: 'post',
-//   maxBodyLength: Infinity,
-//   url: 'https://api.hubapi.com/crm/v3/objects/2-21293069',
-//   headers: { 
-//     'Content-Type': 'application/json', 
-//     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
-//   },
-//   data : data
-// };
-
-// axios.request(config)
-// .then((response) => {
-//   console.log(JSON.stringify(response.data));
-// })
-// .catch((error) => {
-//   console.log(error);
-// });
-
-
-
-//       // Make a POST request to create or update the custom object data
-//       await axios.post(createOrUpdateEndpoint, formData, { headers });
-  
-//       // Redirect the user to the homepage after form submission
-//       res.redirect('/');
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send('Internal Server Error');
-//     }
-//   });
-  
-
-// app.post('/update', async (req, res) => {
-//     const update = {
-//         properties: {
-//             "favorite_book": req.body.newVal
-//         }
-//     }
-
-//     const email = req.query.email;
-//     const updatePet = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
-//     const headers = {
-//         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-//         'Content-Type': 'application/json'
-//     };
-
-//     try { 
-//         await axios.patch(updatePet, update, { headers } );
-//         res.redirect('back');
-//     } catch(err) {
-//         console.error(err);
-//     }
-
-// });
-
-
-
-
-
-
-/** 
-* * This is sample code to give you a reference for how you should structure your calls. 
-
-* * App.get sample
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
+let newPet = JSON.stringify({
+    "properties": {
+      "name": '',
+      "nickname":'',
+      "favorite_song": ''
     }
-    try {
-        const resp = await axios.get(contacts, { headers });
-        const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
-    } catch (error) {
-        console.error(error);
-    }
+  });
+
+
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'https://api.hubapi.com/crm/v3/objects/2-21293069',
+  headers: { 
+    'Content-Type': 'application/json', 
+    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+  },
+data : newPet
+};
+
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.newPet), "here");
+})
+.catch((error) => {
+  console.log(error);
 });
 
-* * App.post sample
-app.post('/update', async (req, res) => {
-    const update = {
-        properties: {
-            "favorite_book": req.body.newVal
-        }
-    }
 
-    const email = req.query.email;
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
-
-    try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('back');
-    } catch(err) {
-        console.error(err);
-    }
-
-});
-*/
-
-
-
-// {
-//     "properties": {
-//       "name": "Louie",
-//       "nickname": "Lulu",
-//       "favorite_song": "Dreams"
-//     }
-//   }
 
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
