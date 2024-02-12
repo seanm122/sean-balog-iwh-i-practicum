@@ -7,15 +7,16 @@ head
     h1  Custom Object Table
     p
         a(href="/update-cobj" class="pb-4") Add to this table
-            table(style='width:50%' border=".5px")
-                tr
+            table(style="border-collapse: collapse; border: 1px solid black; width: 30%")
+                tr(style="border: 1px solid black; padding: 5px;")
                     th Name
                     th Nickname
                     th Favorite Song
                     each homepage in data
-                        tr
-                            td #{homepage.properties.name}
-                            td #{homepage.properties.nickname}
-                            td #{homepage.properties.favorite_song}
-                            
+                     tr
+                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.name}
+                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.nickname}
+                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.favorite_song}
+                        
 
+                        

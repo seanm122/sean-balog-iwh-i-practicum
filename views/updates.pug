@@ -6,15 +6,25 @@ head
  
     h1  Custom Object Table
       p
-    form(method="POST") 
-      label(for="name") Pet Name:
-        input(type="text", value=name)
-      p 
-      label(for="nickname") Nickname:
-        input(type="text", value=nickname)
-      p
-      label(for="favortite_song") Favorite Song:
-        input(type="text", value=favorite_song)
+    //- form(method="POST") 
+    //-   label(for="name") Pet Name:
+    //-     input(type="text", value=name)
+    //-   p 
+    //-   label(for="nickname") Nickname:
+    //-     input(type="text", value=nickname)
+    //-   p
+    //-   label(for="favortite_song") Favorite Song:
+    //-     input(type="text", value=favorite_song)
     
+    form(method="POST") 
+      p Pet Name: #{petName}
+          input(type="text")
+      p Nickname #{nickname}
+          input(type="text")
+      p Favorite Song #{favorite_song}  
+          input(type="text")
+    input(type="submit" value="Submit")
       
-      a(href="/" class="pb-4") Return to Homepage
+ 
+p
+    a(href="/" class="pb-4") Return to Homepage
