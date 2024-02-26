@@ -18,10 +18,10 @@ app.use(express.json());
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 const cObjProps =
-  "?properties=name&properties=nickname&properties=favorite_song";
+  "?properties=pet_name&properties=pet_type&properties=nickname";
 // * Code for Route 1 goes here
 app.get("/", async (req, res) => {
-  const homepage = `https://api.hubspot.com/crm/v3/objects/2-21293069${cObjProps}`;
+  const homepage = `https://api.hubspot.com/crm/v3/objects/2-24717581${cObjProps}`;
   const headers = {
     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
     "Content-Type": "application/json",
@@ -57,12 +57,12 @@ app.get("/", async (req, res) => {
 // });
 
 app.get("/update-cobj", async (req, res) => {
-  const updates = {
-    name: req.body.name,
-    nickname: req.body.nickname,
-    favorite_song: req.body.favorite_song,
-  };
-  const getPet = `https://api.hubspot.com/crm/v3/objects/2-21293069${cObjProps}`;
+  // const updates = {
+  //   name: req.body.name,
+  //   nickname: req.body.nickname,
+  //   favorite_song: req.body.favorite_song,
+  // };
+  const getPet = `https://api.hubspot.com/crm/v3/objects/2-24717581${cObjProps}`;
   const headers = {
     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
     "Content-Type": "application/json",
@@ -82,9 +82,9 @@ app.get("/update-cobj", async (req, res) => {
     res.render("updates", {
       title:
         "Update Custom Object Form | Integrating With HubSpot I Practicum.",
-      petName: data.name,
-      nickname: data.nickname,
-      favoriteSong: data.favorite_song,
+      petName: data.pet_name,
+      nickname: data.pet_type,
+      favoriteSong: data.nickname,
     });
     console.log(req.body);
   } catch (err) {
@@ -98,33 +98,55 @@ app.get("/update-cobj", async (req, res) => {
 
 // postman
 
-let newPet = JSON.stringify({
-  properties: {
-    name: "",
-    nickname: "",
-    favorite_song: "",
-  },
-});
+// let newPet = JSON.stringify({
+//   properties: {
+//     name: "",
+//     nickname: "",
+//     favorite_song: "",
+//   },
+// });
 
-let config = {
-  method: "post",
-  maxBodyLength: Infinity,
-  url: "https://api.hubapi.com/crm/v3/objects/2-21293069",
-  headers: {
-    "Content-Type": "application/json",
+// let config = {
+//   method: "post",
+//   maxBodyLength: Infinity,
+//   url: "https://api.hubapi.com/crm/v3/objects/2-21293069",
+//   headers: {
+//     "Content-Type": "application/json",
+//     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+//   },
+//   data: newPet,
+// };
+
+// axios
+//   .request(config)
+//   .then((response) => {
+//     console.log(JSON.stringify(response.newPet), "here");
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+
+app.post("/update", async (req, res) => {
+  const pet = {
+    properties: {
+      petName: req.body.pet_name,
+      petType: req.body.pet_type,
+      nickname: req.body.nickname,
+    },
+  };
+  const updatePet = `https://api.hubspot.com/crm/v3/objects/2-24717581`;
+  const headers = {
     Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
-  },
-  data: newPet,
-};
+    "Content-Type": "application/json",
+  };
 
-axios
-  .request(config)
-  .then((response) => {
-    console.log(JSON.stringify(response.newPet), "here");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+  try {
+    await axios.post(updatePet, pet, { headers });
+    res.redirect("back");
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 // * Localhost
 app.listen(3000, () => console.log("Listening on http://localhost:3000"));

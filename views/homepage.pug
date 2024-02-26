@@ -10,13 +10,13 @@ head
             table(style="border-collapse: collapse; border: 1px solid black; width: 30%")
                 tr(style="border: 1px solid black; padding: 5px;")
                     th Name
+                    th Type of Pet
                     th Nickname
-                    th Favorite Song
                     each homepage in data
                      tr
-                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.name}
+                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.pet_name}
+                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.pet_type}
                         td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.nickname}
-                        td(style="border: 1px solid black; padding: 5px;") #{homepage.properties.favorite_song}
                         
 
                         
